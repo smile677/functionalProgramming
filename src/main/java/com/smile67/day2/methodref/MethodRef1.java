@@ -13,9 +13,11 @@ public class MethodRef1 {
                         new Student("宋青书", "男")
                 )
 //              .filter(stu -> stu.sex().equals("男"))     // lambda 表达式方式
-                .filter(MethodRef1::isMale)              // 静态方法引用方式
+//              .filter(MethodRef1::isMale)                // 静态方法引用方式
+                .filter(Student::isMale)                   // 非静态方法引用方式
 //              .forEach(stu -> System.out.println(stu));  // lambda 表达式方式
-                .forEach(MethodRef1::abc);                 // 静态方法引用方式
+//              .forEach(MethodRef1::abc);                 // 静态方法引用方式
+                .forEach(Student::print);                  // 静态方法引用方式
 
         /*
             (Student stu) -> stu.sex().equals("男")
@@ -30,6 +32,12 @@ public class MethodRef1 {
          */
     }
 
+    /**
+     * 静态方法
+     *
+     * @param stu
+     * @return
+     */
     public static boolean isMale(Student stu) {
         return stu.sex().equals("男");
     }
@@ -43,16 +51,21 @@ public class MethodRef1 {
             System.out.println(this);
         }
         /*
-            Student::print
-            (stu) -> stu.print()
+            方法应用: Student::print
+            Lambda对象: (stu) -> stu.print()
          */
 
+        /**
+         * 非静态方法
+         *
+         * @return
+         */
         public boolean isMale() {
             return this.sex.equals("男");
         }
         /*
-            Student::isMale
-            (stu) -> stu.isMale()
+            非静态方法方法引用格式: Student::isMale
+            Lambda对象: (stu) -> stu.isMale()
          */
     }
 }
