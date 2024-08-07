@@ -23,6 +23,7 @@ public class ClosureTest1 {
         // 函数对象可以与可变状态的变量组成闭包
         Student stu = new Student(20);
         // 函数的不可变性被破坏了: 因为他和可变对象一起使用了--->违背了函数式编程
+        // 即，如果函数对象配合一个可变变量形成闭包，那么函数的不变性会被破坏
         Lambda lambda = y -> y + stu.d; // 只做了最外层的检测
         highOrder(lambda); // 21
 
@@ -44,7 +45,7 @@ public class ClosureTest1 {
     int b = 2;
 
     public /*static*/ void test(int c/*局部变量*/) { // 静态方法中不能使用成员变量
-        // 函数对象的逻辑部分用到了外部变量，可以与外部的变量形成闭包
+        // 闭包定义: 函数对象的逻辑部分用到了外部变量，可以与外部的变量形成闭包
         // 闭包的限制条件: 变量必须是final或者是 effectively final的 即变量不能被重新赋值了--->根本原因是要保证函数的不变性
         highOrder(y -> a + y);
         highOrder(y -> b + y);
