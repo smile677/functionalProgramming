@@ -7,10 +7,21 @@ import java.util.function.*;
 public class C04SimpleStream<T> {
     public static void main(String[] args) {
         List<Integer> list = List.of(1, 2, 3, 4, 5, 1, 2, 3);
-        C04SimpleStream.of(list)
-                .filter(x -> (x & 1) == 1)
-                .map(x -> x * x)
-                .forEach(System.out::println);
+//        C04SimpleStream.of(list)
+//                .filter(x -> (x & 1) == 1)
+//                .map(x -> x * x)
+//                .forEach(System.out::println);
+        System.out.println(C04SimpleStream.of(list).reduce(0, (a, b) -> a + b));
+        System.out.println(C04SimpleStream.of(list).reduce(Integer.MIN_VALUE, Integer::max));
+        System.out.println(C04SimpleStream.of(list).reduce(Integer.MAX_VALUE, Integer::min));
+    }
+
+    public T reduce(T o, BinaryOperator<T> operator) {
+        T p = o;
+        for (T t : collection) {
+            p = operator.apply(p, t);
+        }
+        return p;
     }
 
     public C04SimpleStream<T> filter(Predicate<T> predicate) {
