@@ -14,11 +14,24 @@ public class C04SimpleStream<T> {
 //        System.out.println(C04SimpleStream.of(list).reduce(0, (a, b) -> a + b));
 //        System.out.println(C04SimpleStream.of(list).reduce(Integer.MIN_VALUE, Integer::max));
 //        System.out.println(C04SimpleStream.of(list).reduce(Integer.MAX_VALUE, Integer::min));
-
-        HashSet<Object> collect = C04SimpleStream.of(list).collect(() -> new HashSet<>(), (set, t) -> set.add(t));
+        // 列表中的数据相加
+        HashSet<Object> collect1 = C04SimpleStream.of(list).collect(() -> new HashSet<>(), (set, t) -> set.add(t));
         // () -> new HashSet<>() HashSet::new
         // (set, t) -> set.add(t)) HashSet::add
-        System.out.println("collect = " + collect);
+        System.out.println("collect1 = " + collect1);
+
+        StringBuilder collect2 = C04SimpleStream.of(list).collect(StringBuilder::new, (sb, t) -> sb.append(t));
+        System.out.println("collect2 = " + collect2);
+
+        // 不是所有的方法都能有方法引用的
+        StringJoiner collection3 = C04SimpleStream
+                .of(list)
+//                .collect(() -> new StringJoiner("-"), (joiner, t) -> joiner.add(String.valueOf(t)));
+                .map(t -> String.valueOf(t))
+                .collect(() -> new StringJoiner("-"), StringJoiner::add);
+        //(StringJoiner, Integer) -> void
+        //(StringJoiner, CharSequence) -> void
+        System.out.println("collection3 = " + collection3);
     }
 
     // C代表容器
