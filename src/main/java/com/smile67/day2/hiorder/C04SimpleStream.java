@@ -11,11 +11,29 @@ public class C04SimpleStream<T> {
 //                .filter(x -> (x & 1) == 1)
 //                .map(x -> x * x)
 //                .forEach(System.out::println);
-        System.out.println(C04SimpleStream.of(list).reduce(0, (a, b) -> a + b));
-        System.out.println(C04SimpleStream.of(list).reduce(Integer.MIN_VALUE, Integer::max));
-        System.out.println(C04SimpleStream.of(list).reduce(Integer.MAX_VALUE, Integer::min));
+//        System.out.println(C04SimpleStream.of(list).reduce(0, (a, b) -> a + b));
+//        System.out.println(C04SimpleStream.of(list).reduce(Integer.MIN_VALUE, Integer::max));
+//        System.out.println(C04SimpleStream.of(list).reduce(Integer.MAX_VALUE, Integer::min));
+
+        HashSet<Object> collect = C04SimpleStream.of(list).collect(() -> new HashSet<>(), (set, t) -> set.add(t));
+        // () -> new HashSet<>() HashSet::new
+        // (set, t) -> set.add(t)) HashSet::add
+        System.out.println("collect = " + collect);
     }
 
+    // C代表容器
+    // supplier 用来创建容器
+    public <C> C collect(Supplier<C> supplier, BiConsumer<C, T> consumer) {
+        C c = supplier.get(); // 创建了容器
+        for (T t : collection) {
+            consumer.accept(c, t); // 向容器中添加元素
+        }
+        // 添加方法 set add  map put StringBuilder append
+        return c;
+    }
+
+
+    // o 代表 p 的初始值
     public T reduce(T o, BinaryOperator<T> operator) {
         T p = o;
         for (T t : collection) {
